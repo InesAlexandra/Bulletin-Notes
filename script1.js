@@ -4,11 +4,17 @@ let cfc = []
 let finalGrade = []
 
 window.addEventListener('load', () => {
-    console.log('Page is fully loaded');
+    console.log('Page is fully loaded :3');
 
-
-    recover()
-    getGradesValues()
+    if (localStorage.getItem('my_grades') === null) {
+        getGradesValues()
+    } else {
+        grades = JSON.parse(localStorage.getItem('my_grades'))
+        for (let myGrades in grades) {
+            document.getElementById(myGrades).value = grades[myGrades]
+        }
+    }
+    gradesTable()
     registerChangeEventsListenerOnInputs()
     //console.log(localStorage)
 
@@ -19,7 +25,7 @@ function calculateAverage(gradesArray) {
     let divider = 0
 
     for (let i = 0; i < gradesArray.length; i++) {
-        if (!isNaN(gradesArray[i])) {
+        if (!isNaN(gradesArray[i]) ? gradesArray[i] !== null : false) {
             sum += gradesArray[i]
             divider++
         }
@@ -86,16 +92,16 @@ function gradesTable () {
 
     function byeNan () {
         if (isNaN(avgGeneral)){
-            document.getElementById('notefinal').innerText = ""
+            document.getElementById('notefinal').innerText = "Moyenne..."
             //console.log('non')
         } /*else {
             console.log('oui')
         }*/
         if (isNaN(maturiteAvg)) {
-            document.getElementById('matu_grade').innerText = ""
+            document.getElementById('matu_grade').innerText = "Moyenne..."
         }
         if (isNaN(cfcAvg)) {
-            document.getElementById('cfc_grade').innerText = ""
+            document.getElementById('cfc_grade').innerText = "Moyenne..."
         }
     }
     byeNan()
@@ -119,26 +125,3 @@ function stock() {
     //console.log('Stock')
     localStorage.setItem('my_grades', JSON.stringify(grades))
 }
-
-function recover() {
-    let grades_recover = localStorage.getItem('my_grades')
-    //if (!isNaN(grades)) {
-        grades = JSON.parse(grades_recover)
-    //}
-    for (let my_grades in grades) {
-        //console.log(my_grades)
-        document.getElementById(my_grades).value = grades[my_grades]
-    }
-}
-
-
-
-
-//localStorage.setItem('my_grades', JSON.stringify(grades))
-//localStorage.getItem(JSON.parse(JSON.stringify(grades)))
-//localStorage.getItem(JSON.parse(stock))
-//localStorage.getItem('my_grades', JSON.parse(grades))
-//JSON.parse(localStorage.getItem('my_grades'))
-//localStorage.getItem(JSON.parse('my_grades'))
-//for(let /key in /obj/) {
-//  document...//byId, ig?//...(key).value = obj[key]
